@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
-import { PhoneButton } from "@/components/shared/PhoneButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { ParallaxSection } from "@/components/motion/ParallaxSection";
@@ -34,10 +33,6 @@ export function FinalCTA() {
             <MagneticButton>
               <WhatsAppButton size="lg" />
             </MagneticButton>
-            <PhoneButton
-              size="lg"
-              className="border-white! text-white! hover:bg-white/10!"
-            />
           </div>
         </Reveal>
       </Container>

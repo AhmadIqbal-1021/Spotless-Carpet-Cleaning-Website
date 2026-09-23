@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
-import { PhoneButton } from "@/components/shared/PhoneButton";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -103,7 +102,6 @@ export function MobileNav() {
 
             <div className="mt-auto flex flex-col gap-3 pt-6">
               <WhatsAppButton size="lg" className="w-full" />
-              <PhoneButton size="lg" className="w-full" />
             </div>
           </div>
         </div>

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
-import { PhoneButton } from "@/components/shared/PhoneButton";
 import { business } from "@/lib/business";
 import { serviceCategories } from "@/lib/services";
 
@@ -62,10 +61,6 @@ export function Footer() {
           </h3>
           <div className="mt-4 flex flex-col items-start gap-3">
             <WhatsAppButton />
-            <PhoneButton
-              variant="outline"
-              className="border-white/60! text-white! hover:bg-white/10!"
-            />
             <Link
               href="/contact"
               className="text-sm font-semibold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"

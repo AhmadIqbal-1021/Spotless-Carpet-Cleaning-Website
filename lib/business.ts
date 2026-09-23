@@ -80,12 +80,6 @@ export function buildWhatsAppLink(message?: string): string | null {
   return `https://wa.me/${business.whatsapp.number}?text=${text}`;
 }
 
-/** Builds a tel: link for the configured business phone number. */
-export function buildTelLink(): string | null {
-  if (!business.phone.number) return null;
-  return `tel:${business.phone.number.replace(/\s+/g, "")}`;
-}
-
 export function buildMailtoLink(): string | null {
   if (!business.email.address) return null;
   return `mailto:${business.email.address}`;
