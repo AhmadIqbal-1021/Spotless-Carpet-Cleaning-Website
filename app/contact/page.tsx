@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { QuoteForm } from "@/components/contact/QuoteForm";
 import { WhatsAppButton } from "@/components/shared/WhatsAppButton";
-import { PhoneButton } from "@/components/shared/PhoneButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { business } from "@/lib/business";
 import { formatGBP } from "@/lib/services";
@@ -44,12 +43,10 @@ export default function ContactPage() {
                   Prefer to talk directly?
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Reach us on WhatsApp for the fastest response, or call us
-                  directly.
+                  Reach us on WhatsApp for the fastest response.
                 </p>
                 <div className="mt-4 flex flex-col gap-3">
                   <WhatsAppButton className="w-full" />
-                  <PhoneButton className="w-full" />
                 </div>
               </div>
 

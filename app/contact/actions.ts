@@ -29,7 +29,7 @@ export async function submitQuoteEnquiry(
     name: String(formData.get("name") || "").trim(),
     phone: String(formData.get("phone") || "").trim(),
     postcode: String(formData.get("postcode") || "").trim(),
-    service: String(formData.get("service") || "") as QuoteEnquiry["service"],
+    services: formData.getAll("services").map(String) as QuoteEnquiry["services"],
     email: String(formData.get("email") || "").trim() || undefined,
     rooms: String(formData.get("rooms") || "").trim() || undefined,
     preferredDate: String(formData.get("preferredDate") || "").trim() || undefined,

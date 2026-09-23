@@ -5,7 +5,6 @@ import Link from "next/link";
 import { submitQuoteEnquiry } from "@/app/contact/actions";
 import { initialQuoteFormState } from "@/lib/contact";
 import { enquiryServiceOptions, type EnquiryServiceValue } from "@/lib/services";
-import { business } from "@/lib/business";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
@@ -24,10 +23,18 @@ export function QuoteForm() {
     submitQuoteEnquiry,
     initialQuoteFormState
   );
-  const [service, setService] = useState<EnquiryServiceValue | "">("");
+  const [selectedServices, setSelectedServices] = useState<EnquiryServiceValue[]>([]);
 
   const formId = useId();
   const errors = state.errors || {};
+
+  function toggleService(value: EnquiryServiceValue) {
+    setSelectedServices((current) =>
+      current.includes(value)
+        ? current.filter((item) => item !== value)
+        : [...current, value]
+    );
+  }
 
   if (state.status === "success") {
     return (
@@ -40,8 +47,7 @@ export function QuoteForm() {
         </h3>
         <p className="text-sm text-muted-foreground">
           We&apos;ve prepared your enquiry with the details you entered. Tap
-          below to send it to us on WhatsApp — the fastest way to reach us —
-          or call us directly.
+          below to send it to us on WhatsApp — the fastest way to reach us.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           {state.whatsappLink ? (
@@ -55,18 +61,10 @@ export function QuoteForm() {
             </a>
           ) : (
             <p className="text-sm text-muted-foreground">
-              WhatsApp is not yet configured — please call us to complete
+              WhatsApp is not yet configured — please contact us to complete
               your enquiry.
             </p>
           )}
-          {business.phone.number ? (
-            <a
-              href={`tel:${business.phone.number.replace(/\s+/g, "")}`}
-              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-brand-navy px-6 py-3 text-sm font-semibold text-brand-navy hover:bg-brand-navy hover:text-white"
-            >
-              Call {business.phone.number}
-            </a>
-          ) : null}
         </div>
       </div>
     );
@@ -133,46 +131,52 @@ export function QuoteForm() {
         </div>
       </div>
 
-      <div>
-        <label htmlFor={`${formId}-service`} className="mb-1.5 block text-sm font-semibold text-brand-navy">
-          Service <span aria-hidden="true">*</span>
-        </label>
-        <select
-          id={`${formId}-service`}
-          name="service"
-          required
-          value={service}
-          onChange={(event) => setService(event.target.value as EnquiryServiceValue)}
-          aria-invalid={Boolean(errors.service)}
-          aria-describedby={errors.service ? `${formId}-service-error` : undefined}
-          className={inputClasses}
+      <fieldset>
+        <legend className="mb-1.5 block text-sm font-semibold text-brand-navy">
+          Services <span aria-hidden="true">*</span>{" "}
+          <span className="font-normal text-muted-foreground">
+            (select all that apply)
+          </span>
+        </legend>
+        <div
+          aria-invalid={Boolean(errors.services)}
+          aria-describedby={errors.services ? `${formId}-services-error` : undefined}
+          className="grid gap-2 sm:grid-cols-2"
         >
-          <option value="" disabled>
-            Select a service
-          </option>
           {enquiryServiceOptions.map((option) => (
-            <option key={option.value} value={option.value}>
+            <label
+              key={option.value}
+              className="flex items-center gap-2 rounded-lg border border-border bg-white px-3 py-2.5 text-sm text-foreground shadow-sm has-[:checked]:border-brand-teal has-[:checked]:ring-2 has-[:checked]:ring-brand-teal/30"
+            >
+              <input
+                type="checkbox"
+                name="services"
+                value={option.value}
+                checked={selectedServices.includes(option.value)}
+                onChange={() => toggleService(option.value)}
+                className="h-4 w-4 rounded border-border text-brand-teal focus:ring-brand-teal/30"
+              />
               {option.label}
-            </option>
+            </label>
           ))}
-        </select>
-        <FieldError id={`${formId}-service-error`} message={errors.service} />
+        </div>
+        <FieldError id={`${formId}-services-error`} message={errors.services} />
 
-        {service === "sofa" ? (
+        {selectedServices.includes("sofa") ? (
           <p className="mt-2 text-xs text-muted-foreground">
             Let us know the sofa size (2 seater, 3 seater, or L-shape) in
             your message below.
           </p>
         ) : null}
-        {service === "mattress" ? (
+        {selectedServices.includes("mattress") ? (
           <p className="mt-2 text-xs text-muted-foreground">
             Let us know if it&apos;s a normal or king-size mattress in your
             message below.
           </p>
         ) : null}
-      </div>
+      </fieldset>
 
-      {service === "carpet" ? (
+      {selectedServices.includes("carpet") ? (
         <div>
           <label htmlFor={`${formId}-rooms`} className="mb-1.5 block text-sm font-semibold text-brand-navy">
             Number of rooms

@@ -4,7 +4,7 @@ export type QuoteEnquiry = {
   name: string;
   phone: string;
   postcode: string;
-  service: EnquiryServiceValue;
+  services: EnquiryServiceValue[];
   email?: string;
   rooms?: string;
   preferredDate?: string;
@@ -44,8 +44,14 @@ export function validateEnquiry(input: Partial<QuoteEnquiry>): FieldErrors {
   }
 
   const validServiceValues = enquiryServiceOptions.map((option) => option.value);
-  if (!input.service || !validServiceValues.includes(input.service as EnquiryServiceValue)) {
-    errors.service = "Please select a service.";
+  if (!input.services || input.services.length === 0) {
+    errors.services = "Please select at least one service.";
+  } else if (
+    input.services.some(
+      (value) => !validServiceValues.includes(value as EnquiryServiceValue)
+    )
+  ) {
+    errors.services = "Please select valid services.";
   }
 
   if (input.email && input.email.trim() && !EMAIL_PATTERN.test(input.email.trim())) {
@@ -73,8 +79,9 @@ function serviceLabel(value: EnquiryServiceValue): string {
  * README.md and .env.example).
  */
 export function buildEnquiryWhatsAppMessage(enquiry: QuoteEnquiry): string {
+  const serviceLabels = enquiry.services.map(serviceLabel).join(", ");
   const lines = [
-    `Hi, I'd like to request a quote for ${serviceLabel(enquiry.service)}.`,
+    `Hi, I'd like to request a quote for ${serviceLabels}.`,
     `Name: ${enquiry.name}`,
     `Phone: ${enquiry.phone}`,
     `Postcode: ${enquiry.postcode}`,
