@@ -83,6 +83,14 @@ export function Footer() {
             — final legal wording to be confirmed by the business owner.
           </p>
         </Container>
+        <Container className="flex justify-center pb-6 text-xs text-white/50 sm:justify-end sm:pt-0">
+          <a
+            href="mailto:ahmadiqbal1021412@gmail.com"
+            className="hover:text-white/80"
+          >
+            Designed &amp; Developed by Muhammad Ahmad Iqbal
+          </a>
+        </Container>
       </div>
     </footer>
   );
