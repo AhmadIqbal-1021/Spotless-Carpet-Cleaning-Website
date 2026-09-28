@@ -13,7 +13,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.spotlesscarpetcleaning.example";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.spotlesscarpetscleaning.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
